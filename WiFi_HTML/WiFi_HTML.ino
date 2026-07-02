@@ -146,6 +146,14 @@ void setup() {
 
   // --- FETCH IP ADDRESS ---
   Serial.println("\n--- Connected! Fetching IP Address ---");
+  
+  // THE FIX: Wait 2 seconds for the ESP to finish its internal network setup
+  delay(2000); 
+  
+  // Flush out any lingering "busy p..." or "OK" messages from the buffer
+  while (Serial1.available()) Serial1.read();
+
+  // NOW ask for the IP address
   Serial1.println("AT+CIFSR");
   
   unsigned long ipTimer = millis();
